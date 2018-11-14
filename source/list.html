@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>{{meta.title | capitalize}} - {{config.domain}}</title>
+{% endblock %}
+
+{% block body %}
+<ul class="article-list">
+  {% for item in meta.links %}
+  <li>
+    <time datetime="{{item.date}}">{{item.date | simpledate}}</time>
+    <a href="/{{meta.title}}/{{item.url}}">{{item.title | bisheng | safe}}</a>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}
