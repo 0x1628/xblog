@@ -46,7 +46,6 @@ function addWhiteSpace(text, $, node) {
     const [target, begin, end, spaceStart, spaceEnd] = modifier.pop()
     text = `${text.slice(0, begin)}${spaceStart ? ' ' : ''}${target}${spaceEnd ? ' ' : ''}${text.slice(end)}`
   }
-
   return text
 }
 
@@ -55,7 +54,8 @@ function addSpanForPunctuation(text) {
   const modifier = []
 
   while(result) {
-    let [, begin, ,targetNormal, targetOpen, targetClose, end] = result
+    console.log(result)
+    let [target, begin, ,targetNormal, targetOpen, targetClose, end] = result
     const beginIndex = result.index + begin.length
     const endIndex = chinesePunctuationRe.lastIndex - end.length
 
@@ -63,7 +63,7 @@ function addSpanForPunctuation(text) {
 
     const isPunctuationAfter = simpleChinesePunctuationRe.test(end)
 
-    if (isPunctuationAfter) {
+    if (isPunctuationAfter && target.length > 2) {
       chinesePunctuationRe.lastIndex -= 1
     }
 
@@ -93,6 +93,7 @@ function addSpanForPunctuation(text) {
 ${isPunctuationAfter ? ' ptt-after' : ''}${isPunctuationBefore ? ' ppt-before' : ''} \
 "><span>${target}</span></span>${text.slice(end)}`
   }
+
   return text
 }
 
@@ -104,7 +105,6 @@ function traverseAndReplace($, nodes) {
     traverseAndReplace($, tagNodes)
     textNodes.each((_, node) => {
       const text = $(node).text()
-
       $(node).replaceWith(addSpanForPunctuation(addWhiteSpace(text, $, node), $, node))
     })
   })
