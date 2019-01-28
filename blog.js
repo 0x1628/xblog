@@ -131,6 +131,26 @@ exports.list = (fpath, url) => {
   })
 }
 
+exports.archive = () => {
+  return new Promise((resolve) => {
+    resolve(nunjucks.render('list.html', {
+      config,
+      meta: {
+        title: 'Archive',
+        links: [{
+          title: '2018 Note',
+          url: '/note',
+          absolute: true,
+        }, {
+          title: '2018 Read',
+          url: '/read',
+          absolute: true,
+        }]
+      },
+    }))
+  })
+}
+
 exports.simple = (fname) => {
   return nunjucks.render(fname, {config})
 }

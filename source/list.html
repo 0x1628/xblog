@@ -8,8 +8,14 @@
 <ul class="article-list">
   {% for item in meta.links %}
   <li>
+    {% if item.date %}
     <time datetime="{{item.date}}">{{item.date | simpledate}}</time>
+    {% endif %}
+    {% if item.absolute %}
+    <a href="{{item.url}}">{{item.title | bisheng | safe}}</a>
+    {% else %}
     <a href="/{{meta.title}}/{{item.url}}">{{item.title | bisheng | safe}}</a>
+    {% endif %}
   </li>
   {% endfor %}
 </ul>

@@ -12,6 +12,17 @@ const koaStaticConfig = {
   maxage: process.env.NODE_ENV === 'production' ? 2 * 365 * 24 * 3600 * 1000 : 0,
 }
 
+// `/archive`
+app.use(async (ctx, next) => {
+  const rresult = ctx.path.match(/^\/archive\/?$/)
+  if (rresult) {
+    ctx.body = await blog.archive()
+    ctx.set('content-type', 'text/html')
+  } else {
+    await next()
+  }
+})
+
 // `/xxx`
 app.use(async (ctx, next) => {
   const rresult = ctx.path.match(/^\/([\w-%]+)\/?$/)
